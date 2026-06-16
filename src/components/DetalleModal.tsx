@@ -25,7 +25,7 @@ export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: Detal
       {/* Cabecera de página */}
       <div className="paper sticky top-0 z-10 flex items-start justify-between gap-3 px-6 py-5">
         <div>
-          <h2 className="font-hand text-3xl leading-none text-ink">{e.nombreNegocio}</h2>
+          <h2 className="font-hand text-3xl leading-none text-ink text-balance">{e.nombreNegocio}</h2>
           <p className="mt-1.5 flex items-center gap-1.5 text-sm text-ink-faint">
             <Building2 size={13} /> {e.tipoNegocio}
           </p>
@@ -35,7 +35,8 @@ export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: Detal
             type="button"
             onClick={onToggle}
             className="flex items-center gap-1.5 rounded-md px-2.5 py-1 font-hand text-base text-ink-soft
-              transition-colors hover:bg-ink/5
+              transition-all duration-150
+              hover:bg-ink/8 hover:text-ink active:scale-95 active:bg-ink/12
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
           >
             {e.completada
@@ -66,7 +67,7 @@ export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: Detal
             return (
               <div key={key}>
                 <p className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-faint">{labelDetalle}</p>
-                <p className="font-hand text-xl leading-7 text-ink">{val}</p>
+                <p className="font-hand text-xl leading-7 text-ink text-pretty">{val}</p>
               </div>
             );
           })}

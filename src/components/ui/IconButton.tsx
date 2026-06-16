@@ -8,9 +8,9 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const tones: Record<IconButtonTone, string> = {
-  default: "text-ink-faint hover:text-ink hover:bg-ink/5",
-  primary: "text-ink-faint hover:text-ink hover:bg-ink/5",
-  danger: "text-ink-faint hover:text-pen hover:bg-pen/10",
+  default: "text-ink-faint hover:text-ink hover:bg-ink/8 active:bg-ink/12",
+  primary: "text-ink-faint hover:text-ink hover:bg-ink/8 active:bg-ink/12",
+  danger: "text-ink-faint hover:text-pen hover:bg-pen/10 active:bg-pen/18",
 };
 
 export function IconButton({
@@ -23,7 +23,8 @@ export function IconButton({
     <button
       type={type}
       className={cn(
-        "p-1.5 rounded-md transition-all",
+        "p-1.5 rounded-md transition-all duration-150",
+        "active:scale-90",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40",
         tones[tone],
         className,

@@ -2,7 +2,7 @@ import { Button, Checkbox, Field, Input, Section, Select, Textarea } from '@/com
 import { PREGUNTAS_MOM_TEST, TIPOS_NEGOCIO } from '@/lib/constants';
 import type { Entrevista } from '@/types';
 import { Building2, ChevronDown, ChevronUp, Lightbulb, MessageSquareQuote, Save, User } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface NuevaEntrevistaProps {
   entrevistaEditar?: Entrevista | null;
@@ -47,6 +47,8 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
   });
   const [showContacto, setShowContacto] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [shaking, setShaking] = useState(false);
+  const shakeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const set = <K extends keyof FormState>(key: K, val: FormState[K]) =>
     setForm(f => ({ ...f, [key]: val }));
@@ -58,10 +60,19 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const triggerShake = () => {
+    setShaking(false);
+    if (shakeTimeout.current) clearTimeout(shakeTimeout.current);
+    requestAnimationFrame(() => {
+      setShaking(true);
+      shakeTimeout.current = setTimeout(() => setShaking(false), 450);
+    });
+  };
+
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) { setErrors(errs); triggerShake(); return; }
     setErrors({});
     onSave({
       nombreNegocio: form.nombreNegocio.trim(),
@@ -85,13 +96,13 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-7 animate-page-in">
+    <form onSubmit={handleSubmit} className={`flex flex-col gap-7 animate-page-in${shaking ? ' animate-shake' : ''}`}>
       {/* Encabezado */}
       <div>
         <h2 className="font-hand text-4xl leading-none text-ink">
           {entrevistaEditar ? 'Editar entrevista' : 'Nueva entrevista'}
         </h2>
-        <p className="mt-1 font-hand text-lg text-ink-faint">Rellena durante o justo después de la visita</p>
+        <p className="mt-1 font-hand text-lg text-ink-faint text-pretty">Rellena durante o justo después de la visita</p>
       </div>
 
       {/* Datos básicos */}

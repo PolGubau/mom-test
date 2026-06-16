@@ -33,19 +33,22 @@ export function BottomNav({ vistaActual, onChange }: NavigationProps) {
               onClick={() => onChange(item.id)}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors',
+                'relative flex-1 flex flex-col items-center justify-center gap-0.5',
+                'transition-all duration-150 active:scale-95',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/30',
-                active ? 'text-ink' : 'text-ink-faint hover:text-ink-soft',
+                active
+                  ? 'text-ink'
+                  : 'text-ink-faint hover:text-ink-soft hover:bg-ink/4 active:bg-ink/6',
               )}
             >
-              <span className={cn('transition-transform', active && '-rotate-6')}>
+              <span className={cn('transition-transform duration-200', active && '-rotate-6')}>
                 {item.icon}
               </span>
               <span className={cn('font-hand text-base leading-none', active && 'font-semibold')}>
                 {item.label}
               </span>
               {active && (
-                <span className="absolute bottom-1.5 h-0.5 w-7 rounded-full bg-ink" />
+                <span className="absolute bottom-1.5 h-0.5 w-7 rounded-full bg-ink animate-fade-in" />
               )}
             </button>
           );
@@ -70,9 +73,10 @@ export function TopNav({ vistaActual, onChange }: NavigationProps) {
                 onClick={() => onChange(item.id)}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'relative pb-1 font-hand text-xl leading-none transition-colors rounded-sm',
+                  'relative pb-1 px-1 font-hand text-xl leading-none rounded-sm',
+                  'transition-all duration-150 active:scale-95',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30',
-                  active ? 'text-ink' : 'text-ink-faint hover:text-ink-soft',
+                  active ? 'text-ink' : 'text-ink-faint hover:text-ink-soft active:text-ink',
                 )}
               >
                 {item.label}

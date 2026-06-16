@@ -50,7 +50,7 @@ export function GuiaMomTest() {
       <div className="border-b-2 border-ink/15 pb-5">
         <span className="font-hand text-lg text-ink-faint">The Mom Test</span>
         <h2 className="mt-1 font-hand text-4xl leading-none text-ink">Cómo entrevistar sin sesgar</h2>
-        <p className="mt-3 max-w-prose font-hand text-xl leading-7 text-ink-soft">
+        <p className="mt-3 max-w-prose font-hand text-xl leading-7 text-ink-soft text-pretty">
           Preguntas que incluso tu madre respondería honestamente, porque no hablan sobre tu idea, sino sobre su vida.
         </p>
         <p className="mt-2 font-hand text-lg text-ink-faint">— Rob Fitzpatrick</p>
@@ -67,7 +67,7 @@ export function GuiaMomTest() {
                 <p className="flex items-center gap-2 font-hand text-xl leading-none text-ink">
                   {r.icon} {r.titulo}
                 </p>
-                <p className="mt-1 font-body text-sm leading-relaxed text-ink-soft">{r.desc}</p>
+                <p className="mt-1 font-body text-sm leading-relaxed text-ink-soft text-pretty">{r.desc}</p>
               </div>
             </div>
           ))}
