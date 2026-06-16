@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Inter", system-ui, -apple-system, sans-serif;
+	--color-brand: #4f46e5;
+	--color-brand-light: #eef2ff;
+	--color-brand-dark: #3730a3;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	margin: 0;
+	padding: 0;
+	min-height: 100dvh;
+}
+
+body {
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #fafafa;
+	color: #18181b;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+}
+
+textarea,
+input,
+select {
+	font-family: inherit;
+}
+
+/* Safe-area padding for bottom navigation on notched devices */
+@utility safe-area-pb {
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Consistent keyboard focus ring across native elements */
+:focus-visible {
+	outline: 2px solid var(--color-brand);
+	outline-offset: 2px;
+}
+
+/* Entrance animations */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@utility animate-fade-in {
+	animation: fade-in 0.2s ease-out;
+}
+
+@utility animate-slide-up {
+	animation: slide-up 0.25s ease-out;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
