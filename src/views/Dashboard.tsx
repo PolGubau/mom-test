@@ -19,31 +19,31 @@ interface DashboardProps {
 export function Dashboard({ entrevistas, completadas, meta, progreso, onDelete, onToggle, onSelect, onNueva }: DashboardProps) {
   const complete = progreso === 100;
   return (
-    <div className="flex flex-col gap-6">
-      {/* Progress Card */}
+    <div className="flex flex-col gap-7 animate-page-in">
+      {/* Marcador de progreso */}
       <Card className="p-5">
-        <div className="flex items-start justify-between mb-4">
+        <div className="mb-3 flex items-end justify-between">
           <div>
-            <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-1">Progreso</p>
-            <p className="text-2xl font-semibold text-zinc-900">
-              {completadas} <span className="text-zinc-400 font-normal text-lg">/ {meta}</span>
+            <p className="font-hand text-xl leading-none text-ink-soft">Progreso</p>
+            <p className="mt-1 font-hand text-5xl leading-none text-ink">
+              {completadas}
+              <span className="text-3xl text-ink-faint"> / {meta}</span>
             </p>
-            <p className="text-sm text-zinc-500 mt-0.5">entrevistas completadas</p>
           </div>
-          <div className={cn('w-12 h-12 rounded-xl flex items-center justify-center', complete ? 'bg-emerald-50' : 'bg-indigo-50')}>
-            <ClipboardList size={22} className={complete ? 'text-emerald-600' : 'text-indigo-600'} />
-          </div>
+          <p className="font-hand text-2xl text-ink-faint">{Math.round(progreso)}%</p>
         </div>
         <ProgressBar value={progreso} complete={complete} />
-        <p className="text-xs text-zinc-400 mt-2">{Math.round(progreso)}% completado</p>
+        <p className="mt-2 font-hand text-base text-ink-faint">
+          {complete ? '¡Meta alcanzada! 🎉' : 'entrevistas completadas'}
+        </p>
       </Card>
 
-      {/* List */}
+      {/* Lista */}
       {entrevistas.length === 0 ? (
         <EmptyState onNueva={onNueva} />
       ) : (
-        <div className="flex flex-col gap-3">
-          <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider px-1">
+        <div className="flex flex-col gap-4">
+          <p className="px-1 font-hand text-lg text-ink-faint">
             {entrevistas.length} entrevista{entrevistas.length !== 1 ? 's' : ''}
           </p>
           {entrevistas.map(e => (
@@ -68,54 +68,48 @@ function EntrevistaCard({ entrevista: e, onDelete, onToggle, onSelect }: {
   onSelect: (e: Entrevista) => void;
 }) {
   return (
-    <Card className={cn('overflow-hidden transition-all', e.completada ? 'border-emerald-200' : 'border-zinc-200')}>
-      <div className="p-4">
-        <div className="flex items-start gap-3">
-          <button
-            type="button"
-            onClick={() => onToggle(e.id)}
-            className="mt-0.5 shrink-0 transition-colors rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
-            aria-label={e.completada ? 'Marcar incompleta' : 'Marcar completa'}
-          >
-            {e.completada
-              ? <CheckCircle2 size={20} className="text-emerald-500" />
-              : <Circle size={20} className="text-zinc-300 hover:text-zinc-400" />}
-          </button>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-zinc-900 text-sm truncate">{e.nombreNegocio}</h3>
-              {e.completada && (
-                <Badge variant="success" className="shrink-0">Completada</Badge>
-              )}
-            </div>
-            <div className="flex items-center gap-3 text-xs text-zinc-400">
-              <span className="flex items-center gap-1">
-                <Building2 size={11} />
-                {e.tipoNegocio}
-              </span>
-              <span className="flex items-center gap-1">
-                <Calendar size={11} />
-                {formatDate(e.fecha)}
-              </span>
-            </div>
+    <Card className={cn('p-4 transition-all', e.completada && 'bg-leaf/4')}>
+      <div className="flex items-start gap-3">
+        <button
+          type="button"
+          onClick={() => onToggle(e.id)}
+          className="group mt-0.5 shrink-0 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+          aria-label={e.completada ? 'Marcar incompleta' : 'Marcar completa'}
+        >
+          {e.completada
+            ? <CheckCircle2 size={21} className="text-leaf" />
+            : <Circle size={21} className="text-ink-faint/60 group-hover:text-ink-faint" />}
+        </button>
+        <div className="min-w-0 flex-1">
+          <div className="mb-0.5 flex items-center gap-2">
+            <h3 className="truncate font-hand text-2xl leading-none text-ink">{e.nombreNegocio}</h3>
+            {e.completada && <Badge variant="success" className="shrink-0">✓ hecho</Badge>}
           </div>
-          <div className="flex items-center gap-1 shrink-0">
-            <IconButton tone="danger" onClick={() => onDelete(e.id)} aria-label="Eliminar">
-              <Trash2 size={15} />
-            </IconButton>
-            <IconButton tone="primary" onClick={() => onSelect(e)} aria-label="Ver detalle">
-              <ChevronRight size={15} />
-            </IconButton>
+          <div className="flex items-center gap-3 font-hand text-base text-ink-faint">
+            <span className="flex items-center gap-1">
+              <Building2 size={12} />
+              {e.tipoNegocio}
+            </span>
+            <span className="flex items-center gap-1">
+              <Calendar size={12} />
+              {formatDate(e.fecha)}
+            </span>
           </div>
+          {e.insights && (
+            <p className="mt-2 line-clamp-2 font-hand text-lg leading-snug text-ink-soft">
+              {e.insights}
+            </p>
+          )}
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <IconButton tone="danger" onClick={() => onDelete(e.id)} aria-label="Eliminar">
+            <Trash2 size={15} />
+          </IconButton>
+          <IconButton tone="primary" onClick={() => onSelect(e)} aria-label="Ver detalle">
+            <ChevronRight size={16} />
+          </IconButton>
         </div>
       </div>
-      {e.insights && (
-        <div className="px-4 pb-4 pt-0">
-          <p className="text-xs text-zinc-500 line-clamp-2 bg-zinc-50 rounded-lg px-3 py-2 border border-zinc-100">
-            {e.insights}
-          </p>
-        </div>
-      )}
     </Card>
   );
 }
@@ -123,12 +117,10 @@ function EntrevistaCard({ entrevista: e, onDelete, onToggle, onSelect }: {
 function EmptyState({ onNueva }: { onNueva: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center">
-        <ClipboardList size={32} className="text-indigo-400" />
-      </div>
+      <ClipboardList size={40} strokeWidth={1.5} className="-rotate-6 text-ink-faint" />
       <div>
-        <h3 className="font-semibold text-zinc-800 mb-1">Sin entrevistas aún</h3>
-        <p className="text-sm text-zinc-400 max-w-xs">
+        <h3 className="mb-1 font-hand text-3xl leading-none text-ink">Sin entrevistas aún</h3>
+        <p className="mx-auto max-w-xs font-hand text-lg leading-snug text-ink-faint">
           Empieza registrando tu primera visita a un negocio local.
         </p>
       </div>

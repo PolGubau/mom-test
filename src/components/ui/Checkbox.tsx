@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 interface CheckboxProps {
@@ -14,17 +13,32 @@ export function Checkbox({ checked, onChange, label }: CheckboxProps) {
       role="checkbox"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 rounded-lg"
+      className="group flex items-center gap-2.5 cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
     >
       <span
         className={cn(
-          "w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors",
-          checked ? "bg-emerald-600 border-emerald-600" : "border-zinc-300 bg-white",
+          "relative flex h-5 w-5 items-center justify-center rounded-[5px] border-2 transition-colors",
+          checked ? "border-leaf" : "border-ink/35 group-hover:border-ink/60",
         )}
       >
-        {checked && <Check size={12} className="text-white" strokeWidth={3} />}
+        {checked && (
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={3}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-leaf"
+            aria-hidden="true"
+          >
+            <path className="check-stroke" d="M4 12.5 L9.5 18 L20 5.5" />
+          </svg>
+        )}
       </span>
-      <span className="text-sm font-medium text-zinc-700">{label}</span>
+      <span className="font-hand text-lg text-ink">{label}</span>
     </button>
   );
 }

@@ -1,7 +1,7 @@
 import { Button, Checkbox, Field, Input, Section, Select, Textarea } from '@/components/ui';
 import { PREGUNTAS_MOM_TEST, TIPOS_NEGOCIO } from '@/lib/constants';
 import type { Entrevista } from '@/types';
-import { Building2, CalendarDays, ChevronDown, ChevronUp, Mail, Phone, Save, User } from 'lucide-react';
+import { Building2, ChevronDown, ChevronUp, Lightbulb, MessageSquareQuote, Save, User } from 'lucide-react';
 import { useState } from 'react';
 
 interface NuevaEntrevistaProps {
@@ -85,17 +85,17 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {/* Header */}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-7 animate-page-in">
+      {/* Encabezado */}
       <div>
-        <h2 className="text-lg font-semibold text-zinc-900">
+        <h2 className="font-hand text-4xl leading-none text-ink">
           {entrevistaEditar ? 'Editar entrevista' : 'Nueva entrevista'}
         </h2>
-        <p className="text-sm text-zinc-400 mt-0.5">Rellena durante o justo después de la visita</p>
+        <p className="mt-1 font-hand text-lg text-ink-faint">Rellena durante o justo después de la visita</p>
       </div>
 
       {/* Datos básicos */}
-      <Section title="Datos del negocio" icon={<Building2 size={15} />}>
+      <Section title="Datos del negocio" icon={<Building2 size={18} />}>
         <Field label="Nombre del negocio" error={errors.nombreNegocio}>
           <Input
             error={!!errors.nombreNegocio}
@@ -115,54 +115,41 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
           </Select>
         </Field>
         <Field label="Fecha de visita">
-          <div className="relative">
-            <CalendarDays size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-            <Input
-              type="date"
-              className="pl-9"
-              value={form.fecha}
-              onChange={e => set('fecha', e.target.value)}
-            />
-          </div>
+          <Input
+            type="date"
+            value={form.fecha}
+            onChange={e => set('fecha', e.target.value)}
+          />
         </Field>
         <button
           type="button"
           onClick={() => setShowContacto(v => !v)}
-          className="flex items-center gap-2 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 rounded-lg"
+          className="flex items-center gap-1.5 self-start rounded-sm font-hand text-lg text-ink-soft transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
         >
-          <User size={13} />
+          <User size={15} />
           Datos de contacto (opcional)
-          {showContacto ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {showContacto ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
         </button>
         {showContacto && (
-          <div className="flex flex-col gap-3 pt-1 pl-2 border-l-2 border-indigo-100">
+          <div className="flex flex-col gap-3 border-l-2 border-ink/15 pl-3">
             <Field label="Nombre">
-              <div className="relative">
-                <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-                <Input className="pl-9" placeholder="Nombre del contacto"
-                  value={form.contactoNombre} onChange={e => set('contactoNombre', e.target.value)} />
-              </div>
+              <Input placeholder="Nombre del contacto"
+                value={form.contactoNombre} onChange={e => set('contactoNombre', e.target.value)} />
             </Field>
             <Field label="Teléfono">
-              <div className="relative">
-                <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-                <Input className="pl-9" placeholder="+34 600 000 000"
-                  value={form.contactoTelefono} onChange={e => set('contactoTelefono', e.target.value)} />
-              </div>
+              <Input placeholder="+34 600 000 000"
+                value={form.contactoTelefono} onChange={e => set('contactoTelefono', e.target.value)} />
             </Field>
             <Field label="Email">
-              <div className="relative">
-                <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-                <Input className="pl-9" type="email" placeholder="email@negocio.com"
-                  value={form.contactoEmail} onChange={e => set('contactoEmail', e.target.value)} />
-              </div>
+              <Input type="email" placeholder="email@negocio.com"
+                value={form.contactoEmail} onChange={e => set('contactoEmail', e.target.value)} />
             </Field>
           </div>
         )}
       </Section>
 
       {/* Preguntas Mom Test */}
-      <Section title="Preguntas Mom Test" icon={<span className="text-indigo-500 font-bold text-xs">MT</span>}>
+      <Section title="Preguntas Mom Test" icon={<MessageSquareQuote size={18} />}>
         {PREGUNTAS_MOM_TEST.map(q => {
           const key = q.key as keyof FormState;
           return (
@@ -179,7 +166,7 @@ export function NuevaEntrevista({ entrevistaEditar, onSave, onCancel }: NuevaEnt
       </Section>
 
       {/* Insights generales */}
-      <Section title="Insights generales" icon={<span className="text-amber-500 text-xs">💡</span>}>
+      <Section title="Insights generales" icon={<Lightbulb size={18} />}>
         <Field label="Notas libres, dolores detectados, frases clave...">
           <Textarea
             className="min-h-28"

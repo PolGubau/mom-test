@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Card } from "./Card";
 
 interface SectionProps {
   title: string;
@@ -9,14 +8,15 @@ interface SectionProps {
 
 export function Section({ title, icon, children }: SectionProps) {
   return (
-    <Card className="overflow-hidden">
-      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-zinc-100">
-        <div className="w-6 h-6 rounded-md bg-indigo-50 flex items-center justify-center">
-          {icon}
-        </div>
-        <h3 className="text-sm font-semibold text-zinc-800">{title}</h3>
+    <section className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <h3 className="flex items-center gap-2 font-hand text-2xl leading-none text-ink">
+          <span className="text-ink-soft">{icon}</span>
+          {title}
+        </h3>
+        <span className="h-0.5 w-14 rounded-full bg-ink/70" />
       </div>
-      <div className="p-4 flex flex-col gap-4">{children}</div>
-    </Card>
+      <div className="flex flex-col gap-4">{children}</div>
+    </section>
   );
 }

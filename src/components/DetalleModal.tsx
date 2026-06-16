@@ -13,34 +13,34 @@ interface DetalleModalProps {
 }
 
 export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: DetalleModalProps) {
-  const infoPills: { icon: ReactNode; value: string }[] = [
-    { icon: <Calendar size={12} className="text-zinc-400" />, value: formatDate(e.fecha, 'long') },
-    e.contacto.nombre && { icon: <User size={12} className="text-zinc-400" />, value: e.contacto.nombre },
-    e.contacto.telefono && { icon: <Phone size={12} className="text-zinc-400" />, value: e.contacto.telefono },
-    e.contacto.email && { icon: <Mail size={12} className="text-zinc-400" />, value: e.contacto.email },
+  const meta: { icon: ReactNode; value: string }[] = [
+    { icon: <Calendar size={13} />, value: formatDate(e.fecha, 'long') },
+    e.contacto.nombre && { icon: <User size={13} />, value: e.contacto.nombre },
+    e.contacto.telefono && { icon: <Phone size={13} />, value: e.contacto.telefono },
+    e.contacto.email && { icon: <Mail size={13} />, value: e.contacto.email },
   ].filter(Boolean) as { icon: ReactNode; value: string }[];
 
   return (
     <Sheet onClose={onClose} ariaLabel={`Detalle de ${e.nombreNegocio}`}>
-      {/* Header */}
-      <div className="sticky top-0 bg-white flex items-center justify-between p-5 border-b border-zinc-100 z-10">
+      {/* Cabecera de página */}
+      <div className="paper sticky top-0 z-10 flex items-start justify-between gap-3 px-6 py-5">
         <div>
-          <h2 className="font-semibold text-zinc-900 text-base">{e.nombreNegocio}</h2>
-          <p className="text-xs text-zinc-400 mt-0.5 flex items-center gap-1">
-            <Building2 size={11} /> {e.tipoNegocio}
+          <h2 className="font-hand text-3xl leading-none text-ink">{e.nombreNegocio}</h2>
+          <p className="mt-1.5 flex items-center gap-1.5 text-sm text-ink-faint">
+            <Building2 size={13} /> {e.tipoNegocio}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={onToggle}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-              border border-zinc-200 hover:bg-zinc-50 transition-colors
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
+            className="flex items-center gap-1.5 rounded-md px-2.5 py-1 font-hand text-base text-ink-soft
+              transition-colors hover:bg-ink/5
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
           >
             {e.completada
-              ? <><CheckCircle2 size={14} className="text-emerald-500" /> Completada</>
-              : <><Circle size={14} className="text-zinc-400" /> Marcar completa</>}
+              ? <><CheckCircle2 size={15} className="text-leaf" /> Completada</>
+              : <><Circle size={15} className="text-ink-faint" /> Marcar completa</>}
           </button>
           <IconButton onClick={onClose} aria-label="Cerrar">
             <X size={18} />
@@ -48,30 +48,25 @@ export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: Detal
         </div>
       </div>
 
-      <div className="p-5 flex flex-col gap-6">
-        {/* Meta */}
-        <div className="flex flex-wrap gap-3 text-xs">
-          {infoPills.map(pill => (
-            <span
-              key={pill.value}
-              className="flex items-center gap-1.5 text-zinc-500 bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-1.5"
-            >
-              {pill.icon} {pill.value}
-            </span>
+      <div className="flex flex-col gap-7 px-6 pb-7 pt-2">
+        {/* Notas al margen */}
+        <div className="flex flex-col gap-1 border-l-2 border-ink/15 pl-3">
+          {meta.map(m => (
+            <p key={m.value} className="flex items-center gap-2 font-hand text-lg leading-snug text-ink-soft">
+              <span className="text-ink-faint">{m.icon}</span> {m.value}
+            </p>
           ))}
         </div>
 
         {/* Respuestas */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           {PREGUNTAS_MOM_TEST.map(({ key, labelDetalle }) => {
             const val = e.respuestas[key];
             if (!val) return null;
             return (
               <div key={key}>
-                <p className="text-xs font-semibold text-zinc-500 mb-1.5">{labelDetalle}</p>
-                <p className="text-sm text-zinc-800 bg-zinc-50 rounded-xl border border-zinc-100 px-4 py-3 leading-relaxed">
-                  {val}
-                </p>
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-faint">{labelDetalle}</p>
+                <p className="font-hand text-xl leading-7 text-ink">{val}</p>
               </div>
             );
           })}
@@ -80,16 +75,14 @@ export function DetalleModal({ entrevista: e, onClose, onEdit, onToggle }: Detal
         {/* Insights */}
         {e.insights && (
           <div>
-            <p className="text-xs font-semibold text-zinc-500 mb-1.5 flex items-center gap-1.5">
-              💡 Insights generales
-            </p>
-            <p className="text-sm text-zinc-800 bg-amber-50 rounded-xl border border-amber-100 px-4 py-3 leading-relaxed">
-              {e.insights}
+            <p className="mb-1.5 font-hand text-xl leading-none text-ink">💡 Insights generales</p>
+            <p className="font-hand text-xl leading-7 text-ink">
+              <span className="marker-hl">{e.insights}</span>
             </p>
           </div>
         )}
 
-        {/* Edit button */}
+        {/* Editar */}
         <Button variant="outline" onClick={onEdit} className="w-full">
           Editar entrevista
         </Button>

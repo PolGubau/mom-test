@@ -10,6 +10,8 @@ import { GuiaMomTest } from '@/views/GuiaMomTest';
 import { NuevaEntrevista } from '@/views/NuevaEntrevista';
 import { useState } from 'react';
 
+const BINDING_HOLES = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9'];
+
 export default function App() {
   const [vista, setVista] = useState<Vista>('historial');
   const [entrevistaDetalle, setEntrevistaDetalle] = useState<Entrevista | null>(null);
@@ -59,11 +61,11 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-dvh bg-zinc-50">
+    <div className="flex flex-col min-h-dvh bg-desk text-ink">
       <TopNav vistaActual={vista} onChange={handleChangeVista} />
 
-      {/* Mobile header */}
-      <div className="md:hidden sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-zinc-200 px-4 py-3.5">
+      {/* Cabecera móvil */}
+      <div className="md:hidden sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-paper-edge px-4 py-3.5">
         <Logo
           subtitle={
             vista === 'historial'
@@ -77,31 +79,42 @@ export default function App() {
         />
       </div>
 
-      {/* Content */}
-      <main className="flex-1 max-w-3xl mx-auto w-full px-4 pt-5 pb-24 md:pb-8 md:px-6">
-        {vista === 'historial' && (
-          <Dashboard
-            entrevistas={entrevistas}
-            completadas={completadas}
-            total={total}
-            meta={meta}
-            progreso={progreso}
-            onDelete={handleDelete}
-            onToggle={toggleCompletada}
-            onSelect={setEntrevistaDetalle}
-            onNueva={handleNueva}
-          />
-        )}
-        {vista === 'nueva' && (
-          <NuevaEntrevista
-            entrevistaEditar={entrevistaEditar}
-            onSave={handleSave}
-            onCancel={entrevistaEditar
-              ? () => { setEntrevistaEditar(null); setVista('historial'); }
-              : undefined}
-          />
-        )}
-        {vista === 'guia' && <GuiaMomTest />}
+      {/* Contenido — una hoja de libreta sobre el escritorio */}
+      <main className="flex-1 w-full max-w-3xl mx-auto px-3 pt-5 pb-24 md:px-6 md:pb-10">
+        <div className="paper relative rounded-xl px-5 py-6 md:pl-14 md:pr-10 md:py-9">
+          {/* Encuadernación de anillas (desktop) */}
+          <div className="pointer-events-none absolute inset-y-6 left-5 hidden flex-col justify-between md:flex">
+            {BINDING_HOLES.map(hole => (
+              <span key={hole} className="h-2.5 w-2.5 rounded-full bg-desk shadow-[inset_0_1px_2px_rgba(0,0,0,0.25)]" />
+            ))}
+          </div>
+
+          <div key={vista} className="animate-page-in">
+            {vista === 'historial' && (
+              <Dashboard
+                entrevistas={entrevistas}
+                completadas={completadas}
+                total={total}
+                meta={meta}
+                progreso={progreso}
+                onDelete={handleDelete}
+                onToggle={toggleCompletada}
+                onSelect={setEntrevistaDetalle}
+                onNueva={handleNueva}
+              />
+            )}
+            {vista === 'nueva' && (
+              <NuevaEntrevista
+                entrevistaEditar={entrevistaEditar}
+                onSave={handleSave}
+                onCancel={entrevistaEditar
+                  ? () => { setEntrevistaEditar(null); setVista('historial'); }
+                  : undefined}
+              />
+            )}
+            {vista === 'guia' && <GuiaMomTest />}
+          </div>
+        </div>
       </main>
 
       <BottomNav vistaActual={vista} onChange={handleChangeVista} />

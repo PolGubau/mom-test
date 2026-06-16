@@ -1,5 +1,5 @@
-import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
+import type { ButtonHTMLAttributes } from "react";
 
 export type ButtonVariant = "primary" | "outline" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md";
@@ -10,19 +10,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary:
-    "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm",
-  outline:
-    "border border-indigo-200 text-indigo-600 hover:bg-indigo-50",
-  ghost:
-    "border border-zinc-200 text-zinc-600 hover:bg-zinc-50",
-  danger:
-    "bg-red-600 hover:bg-red-700 text-white shadow-sm",
+  primary: "bg-ink text-paper hover:bg-ink-soft shadow-sm",
+  outline: "border border-ink/30 text-ink hover:bg-ink/5",
+  ghost: "border border-ink/15 text-ink-soft hover:bg-ink/5",
+  danger: "bg-pen text-paper hover:opacity-90 shadow-sm",
 };
 
 const sizes: Record<ButtonSize, string> = {
   sm: "px-3.5 py-2 text-xs",
-  md: "px-5 py-3 text-sm",
+  md: "px-5 py-2.5 text-sm",
 };
 
 export function Button({
@@ -36,8 +32,9 @@ export function Button({
     <button
       type={type}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40",
+        "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all",
+        "active:translate-y-px",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40",
         "disabled:opacity-50 disabled:pointer-events-none",
         variants[variant],
         sizes[size],

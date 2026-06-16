@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import type { ReactNode } from "react";
 
 interface FieldProps {
   label: string;
@@ -15,19 +15,18 @@ export function Field({ label, error, hint, emphasis = false, children }: FieldP
     <div className="flex flex-col gap-1.5">
       <label
         className={cn(
-          "text-xs",
-          emphasis ? "font-semibold text-zinc-700" : "font-medium text-zinc-600",
+          emphasis
+            ? "font-hand text-xl leading-snug text-ink"
+            : "text-xs font-medium text-ink-soft",
         )}
       >
         {label}
       </label>
       {hint && (
-        <p className="text-[11px] text-indigo-500 bg-indigo-50 rounded-lg px-2.5 py-1.5 border border-indigo-100">
-          {hint}
-        </p>
+        <p className="font-hand text-base leading-tight text-pen/90">{hint}</p>
       )}
       {children}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="font-hand text-base text-pen">{error}</p>}
     </div>
   );
 }

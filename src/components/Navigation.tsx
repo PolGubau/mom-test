@@ -10,9 +10,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: 'historial', label: 'Historial', icon: <ClipboardList size={22} /> },
-  { id: 'nueva', label: 'Nueva', icon: <PlusCircle size={22} /> },
-  { id: 'guia', label: 'Guía', icon: <BookOpen size={22} /> },
+  { id: 'historial', label: 'Historial', icon: <ClipboardList size={19} /> },
+  { id: 'nueva', label: 'Nueva', icon: <PlusCircle size={19} /> },
+  { id: 'guia', label: 'Guía', icon: <BookOpen size={19} /> },
 ];
 
 interface NavigationProps {
@@ -22,7 +22,7 @@ interface NavigationProps {
 
 export function BottomNav({ vistaActual, onChange }: NavigationProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-200 safe-area-pb md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-paper border-t border-paper-edge safe-area-pb md:hidden">
       <div className="flex items-stretch h-16">
         {navItems.map(item => {
           const active = vistaActual === item.id;
@@ -33,15 +33,20 @@ export function BottomNav({ vistaActual, onChange }: NavigationProps) {
               onClick={() => onChange(item.id)}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'flex-1 flex flex-col items-center justify-center gap-0.5 text-xs font-medium transition-colors',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500/40',
-                active ? 'text-indigo-600' : 'text-zinc-400 hover:text-zinc-600',
+                'relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/30',
+                active ? 'text-ink' : 'text-ink-faint hover:text-ink-soft',
               )}
             >
-              <span className={cn('transition-transform', active && 'scale-110')}>
+              <span className={cn('transition-transform', active && '-rotate-6')}>
                 {item.icon}
               </span>
-              <span>{item.label}</span>
+              <span className={cn('font-hand text-base leading-none', active && 'font-semibold')}>
+                {item.label}
+              </span>
+              {active && (
+                <span className="absolute bottom-1.5 h-0.5 w-7 rounded-full bg-ink" />
+              )}
             </button>
           );
         })}
@@ -52,10 +57,10 @@ export function BottomNav({ vistaActual, onChange }: NavigationProps) {
 
 export function TopNav({ vistaActual, onChange }: NavigationProps) {
   return (
-    <header className="hidden md:flex sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-zinc-200">
+    <header className="hidden md:flex sticky top-0 z-50 bg-paper/85 backdrop-blur border-b border-paper-edge">
       <div className="max-w-3xl mx-auto w-full flex items-center justify-between px-6 h-14">
         <Logo />
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-end gap-6">
           {navItems.map(item => {
             const active = vistaActual === item.id;
             return (
@@ -65,15 +70,15 @@ export function TopNav({ vistaActual, onChange }: NavigationProps) {
                 onClick={() => onChange(item.id)}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40',
-                  active
-                    ? 'bg-indigo-50 text-indigo-600'
-                    : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100',
+                  'relative pb-1 font-hand text-xl leading-none transition-colors rounded-sm',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30',
+                  active ? 'text-ink' : 'text-ink-faint hover:text-ink-soft',
                 )}
               >
-                {item.icon}
                 {item.label}
+                {active && (
+                  <span className="absolute -bottom-px left-0 right-0 h-0.5 rounded-full bg-ink" />
+                )}
               </button>
             );
           })}
